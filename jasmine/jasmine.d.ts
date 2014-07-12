@@ -36,6 +36,8 @@ declare module jasmine {
 
     var clock: () => Clock;
 
+    var DEFAULT_TIMEOUT_INTERVAL : number;
+
     function any(aclass: any): Any;
     function objectContaining(sample: any): ObjectContaining;
     function createSpy(name: string, originalFn?: Function): Spy;
