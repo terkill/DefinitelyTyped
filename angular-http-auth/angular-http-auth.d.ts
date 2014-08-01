@@ -7,7 +7,7 @@
 
 declare module ng.httpAuth {
 	interface IAuthService {
-		loginConfirmed(data?: any, configUpdater?: (config: ng.IRequestConfig) => ng.IRequestConfig);
-		loginCancelled(data?: any, reason?: any);
+		loginConfirmed(data?: any, configUpdater?: (config: ng.IRequestConfig) => ng.IRequestConfig): void;
+		loginCancelled(data?: any, reason?: any): void;
 	}
 }
