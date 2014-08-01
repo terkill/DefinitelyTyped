@@ -15,12 +15,13 @@ declare module ng.pnotify {
         error(content: string, stack?: string): void;
         notifyWithDefaults(content: string, stack?: string): void;
 
-        notify(hash: any): void;
+        notify(hash: any): ng.IPromise<any>;
     }
 
     interface INotificationServiceProvider {
         setDefaults(defaults: { [key: string]: any }): void;
-        setStack(name: string: addCLass: string, strack: any): void;
-        setDefaultStack(name: string);
+        setStack(name: string, stack: Object): void;
+        setStack(name: string, addClass: string, stack: Object): void;
+        setDefaultStack(name: string): void;
     }
 }
