@@ -1099,6 +1099,7 @@ interface HighchartsSeriesObject {
     remove(): void;
     remove(redraw: boolean): void;
     name: string;
+    color: string;
     points: HighchartsPointObject[];
     select(): void;
     select(selected?: boolean): void;
