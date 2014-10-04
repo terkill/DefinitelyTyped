@@ -118,7 +118,7 @@ interface KnockoutBindingContext {
     $parents: any[];
     $root: any;
     $data: any;
-    $index?: number;
+    $index?: KnockoutObservable<number>;
     $parentContext?: KnockoutBindingContext;
 
     extend(properties: any): any;
@@ -127,12 +127,13 @@ interface KnockoutBindingContext {
 
 interface KnockoutAllBindingsAccessor {
     (): any;
-    get(bindingName: string): any;
+    get(name: string): any;
+    has(name: string): boolean;
 }
 
 interface KnockoutBindingHandler {
-    init?(element: any, valueAccessor: () => any, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
-    update?(element: any, valueAccessor: () => any, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
+    init? (element: any, valueAccessor: () => any, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
+    update? (element: any, valueAccessor: () => any, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void;
     options?: any;
 }
 
@@ -160,6 +161,7 @@ interface KnockoutBindingHandlers {
     enable: KnockoutBindingHandler;
     disable: KnockoutBindingHandler;
     value: KnockoutBindingHandler;
+    textInput: KnockoutBindingHandler;
     hasfocus: KnockoutBindingHandler;
     checked: KnockoutBindingHandler;
     options: KnockoutBindingHandler;
@@ -524,6 +526,7 @@ interface KnockoutStatic {
 
     expressionRewriting: {
         bindingRewriteValidators: any;
+        parseObjectLiteral: { (objectLiteralString: string): any[] }
     };
 
     /////////////////////////////////
@@ -543,6 +546,8 @@ interface KnockoutStatic {
 
         writeValue(element: HTMLElement, value: any): void;
     };
+
+    components: KnockoutComponents;
 }
 
 interface KnockoutBindingProvider {
@@ -552,7 +557,13 @@ interface KnockoutBindingProvider {
 }
 
 interface KnockoutComponents {
-	register(componentName: string, definition: KnockoutComponentDefinition): void;
+    // overloads for register method:
+    register(componentName: string, config: KnockoutComponentRegister): void;
+    register(componentName: string, config: KnockoutComponentRegisterStringTemplate): void;
+    register(componentName: string, config: KnockoutComponentRegisterFnViewModel): void;
+    register(componentName: string, config: KnockoutComponentRegisterStringTemplateFnViewModel): void;
+    register(componentName: string, config: KnockoutComponentRegisterAMD): void;
+
 	isRegistered(componentName: string): boolean;
 	unregister(componentName: string): void;
 	get(componentName: string, callback: (definition: KnockoutComponentDefinition) => void): void;
@@ -562,6 +573,50 @@ interface KnockoutComponents {
 	getComponentNameForNode(node: Node): string;
 }
 
+/* interfaces for register overloads*/
+
+interface KnockoutComponentRegister {
+    template: KnockoutComponentTemplate;
+    viewModel?: KnockoutComponentConfigViewModel;
+}
+
+interface KnockoutComponentRegisterAMD {
+    // load self-describing module using AMD module name
+    require: string;
+}
+
+interface KnockoutComponentRegisterFnViewModel {
+    template: KnockoutComponentTemplate;
+    viewModel?: (params: any) => any;
+}
+
+interface KnockoutComponentRegisterStringTemplate {
+    template: string;
+    viewModel?: KnockoutComponentConfigViewModel;
+}
+
+interface KnockoutComponentRegisterStringTemplateFnViewModel {
+    template: string;
+    viewModel?: (params: any) => any;
+}
+
+interface KnockoutComponentConfigViewModel {
+    instance?: any;
+    createViewModel? (params?: any, componentInfo?: KnockoutComponentInfo): any;
+    require?: string;
+}
+
+interface KnockoutComponentTemplate {
+    // specify element id (string) or a node
+    element?: any;
+    // AMD module load
+    require?: string;
+}
+
+interface KnockoutComponentInfo {
+    element: any;
+}
+/* end register overloads */
 interface KnockoutComponentDefinition {
 	template: Node[];
 	createViewModel?(params: any, options: { element: Node; }): any;
@@ -582,7 +637,7 @@ interface KnockoutComponentConfig {
 
 interface KnockoutComputedContext {
 	getDependenciesCount(): number;
-	isInitial: boolean;
+	isInitial: () => boolean;
 	isSleeping: boolean;
 }
 

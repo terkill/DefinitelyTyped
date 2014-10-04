@@ -3,6 +3,8 @@
 // Definitions by: Matthew Kimber <https://github.com/matthewkimber>, otiai10 <https://github.com/otiai10>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
+/// <reference path='../webrtc/MediaStream.d.ts'/>
+
 ////////////////////
 // Alarms
 ////////////////////
@@ -294,6 +296,7 @@ declare module chrome.contextMenus {
         pageUrl: string;
         linkUrl?: string;
         parentMenuItemId?: any;
+        srcUrl?: string;
     }
 
     interface CreateProperties {
@@ -535,6 +538,14 @@ declare module chrome.declarativeWebRequest {
     }    
 
     var onRequest: RequestedEvent;
+}
+
+////////////////////
+// DesktopCapture
+////////////////////
+declare module chrome.desktopCapture {
+    export function chooseDesktopMedia(sources: string[], targetTab?: chrome.tabs.Tab, callback?: (streamId: string) => void): void;
+    export function cancelChooseDesktopMedia(desktopMediaRequestId: number): void;
 }
 
 ////////////////////
@@ -843,8 +854,12 @@ declare module chrome.extension {
         type?: string;
     }
 
+    interface LastError {
+        message?: string;
+    }
+
     var inIncognitoContext: boolean;
-    var lastError: Object;
+    var lastError: LastError;
 
     export function getBackgroundPage(): Window;
     export function getURL(path: string): string;
@@ -1487,8 +1502,12 @@ declare module chrome.proxy {
 // Runtime
 ////////////////////
 declare module chrome.runtime {
-    var lastError: Object;
+    var lastError: LastError;
     var id: string;
+
+    interface LastError {
+        message?: string;
+    }
 
     interface ConnectInfo {
         name?: string;
@@ -1735,6 +1754,27 @@ declare module chrome.socket {
     export function setNoDelay(socketId: number, noDelay: boolean, callback?: (result: boolean) => void): void;
     export function getInfo(socketId: number, callback: (result: SocketInfo) => void): void;
     export function getNetworkList(callback: (result: NetworkInterface[]) => void): void;
+}
+
+////////////////////
+// TabCapture
+////////////////////
+declare module chrome.tabCapture {
+    interface CaptureInfo {
+        tabId: number;
+        status: string;
+        fullscreen: boolean;
+    }
+
+    interface CaptureOptions {
+        audio?: boolean;
+        video?: boolean;
+        audioConstraints?: MediaTrackConstraints;
+        videoConstraints?: MediaTrackConstraints;
+    }
+
+    export function capture(options: CaptureOptions, callback: (stream: LocalMediaStream) => void): void;
+    export function getCapturedTabs(callback: (result: CaptureInfo[]) => void): void;
 }
 
 ////////////////////
@@ -2190,13 +2230,19 @@ declare module chrome.webRequest {
         username: string;
         password: string;
     }
-
+    
+    interface HttpHeader {
+        name: string;
+        value?: string;
+        binaryValue?: ArrayBuffer;
+    }
+    
     interface BlockingResponse {
         cancel?: boolean;
         redirectUrl?: string;
-        responseHeaders?: Object;
+        responseHeaders?: HttpHeader[];
         authCredentials?: AuthCredentials;
-        requestHeaders?: Object;
+        requestHeaders?: HttpHeader[];
     }
 
     interface RequestFilter {
@@ -2216,7 +2262,7 @@ declare module chrome.webRequest {
         ip?: string;
         statusLine?: string;
         frameId: number;
-        responseHeaders?: Object;
+        responseHeaders?: HttpHeader[];
         parentFrameId: number;
         fromCache: boolean;
         url: string;
@@ -2235,7 +2281,7 @@ declare module chrome.webRequest {
         statusLine?: string;
         frameId: number;
         requestId: string;
-        responseHeaders: Object;
+        responseHeaders?: HttpHeader[];
         type: string;
         method: string;
     }
@@ -2245,7 +2291,7 @@ declare module chrome.webRequest {
         ip?: string;
         statusLine?: string;
         frameId: number;
-        responseHeaders?: Object;
+        responseHeaders?: HttpHeader[];
         parentFrameId: number;
         fromCache: boolean;
         url: string;
@@ -2267,7 +2313,7 @@ declare module chrome.webRequest {
         statusLine?: string;
         frameId: number;
         challenger: Challenger;
-        responseHeaders: Object;
+        responseHeaders?: HttpHeader[];
         isProxy: boolean;
         realm?: string;
         parentFrameId: number;
@@ -2286,7 +2332,7 @@ declare module chrome.webRequest {
         timeStamp: number;
         frameId: number;
         requestId: number;
-        requestHeaders?: Object;
+        requestHeaders?: HttpHeader[];
         type: string;
         method: string;
     }
@@ -2310,7 +2356,7 @@ declare module chrome.webRequest {
         ip?: string;
         statusLine?: string;
         frameId: number;
-        responseHeaders?: Object;
+        responseHeaders?: HttpHeader[];
         parentFrameId: number;
         fromCache: boolean;
         url: string;
@@ -2328,7 +2374,7 @@ declare module chrome.webRequest {
         timeStamp: number;
         frameId: number;
         requestId: string;
-        requestHeaders: Object;
+        requestHeaders?: HttpHeader[];
         type: string;
         method: string;
     }

@@ -11,8 +11,9 @@ declare module ng.ui {
         name?: string;
         template?: any;
         templateUrl?: any;
-        templateProvider?: () => string;
+        templateProvider?: any;
         controller?: any;
+        controllerAs?: string;
         controllerProvider?: any;
         resolve?: {};
         url?: string;
@@ -22,6 +23,7 @@ declare module ng.ui {
         onEnter?: any;
         onExit?: any;
         data?: any;
+        reloadOnSearch?: boolean;
     }
 
     interface IStateProvider extends IServiceProvider {

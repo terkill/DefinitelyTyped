@@ -9,6 +9,7 @@ import util = require("util");
 import crypto = require("crypto");
 import http = require("http");
 import net = require("net");
+import dgram = require("dgram");
 
 assert(1 + 1 - 2 === 0, "The universe isn't how it should.");
 
@@ -58,6 +59,10 @@ class Networker extends events.EventEmitter {
     }
 }
 
+////////////////////////////////////////////////////
+/// Url tests : http://nodejs.org/api/url.html
+////////////////////////////////////////////////////
+
 url.format(url.parse('http://www.example.com/xyz'));
 
 // https://google.com/search?q=you're%20a%20lizard%2C%20gary
@@ -67,6 +72,10 @@ url.format({
     pathname: 'search', 
     query: { q: "you're a lizard, gary" }
 });
+
+var helloUrl = url.parse('http://example.com/?hello=world', true)
+assert.equal(helloUrl.query.hello, 'world');
+
 
 // Old and new util.inspect APIs
 util.inspect(["This is nice"], false, 5);
@@ -110,3 +119,15 @@ module http_tests {
     var codeMessage = http.STATUS_CODES['400'];
     var codeMessage = http.STATUS_CODES[400];
 }
+
+////////////////////////////////////////////////////
+/// Dgram tests : http://nodejs.org/api/dgram.html
+////////////////////////////////////////////////////
+
+var ds: dgram.Socket = dgram.createSocket("udp4", (msg: Buffer, rinfo: dgram.RemoteInfo): void => {
+});
+var ai: dgram.AddressInfo = ds.address();
+ds.send(new Buffer("hello"), 0, 5, 5000, "127.0.0.1", (error: Error, bytes: number): void => {
+});
+
+
