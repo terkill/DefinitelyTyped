@@ -17,7 +17,7 @@ declare module ng.ui {
         controllerProvider?: any;
         resolve?: {};
         url?: string;
-        params?: any[];
+        params?: {[key: string]: any};
         views?: {};
         abstract?: boolean;
         onEnter?: any;
