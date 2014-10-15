@@ -2461,7 +2461,7 @@ function test_isNumeric() {
     $.isNumeric("8e5");
     $.isNumeric(3.1415);
     $.isNumeric(+10);
-    $.isNumeric(0144);
+    $.isNumeric(0x64);
     $.isNumeric("");
     $.isNumeric({});
     $.isNumeric(NaN);
