@@ -1,4 +1,4 @@
-// Type definitions for Angular JS 1.1.5+ (ui.router module)
+q// Type definitions for Angular JS 1.1.5+ (ui.router module)
 // Project: https://github.com/angular-ui/ui-router
 // Definitions by: Michel Salib <https://github.com/michelsalib>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
@@ -15,7 +15,7 @@ declare module ng.ui {
         controller?: any;
         controllerAs?: string;
         controllerProvider?: any;
-        resolve?: {};
+        resolve?: {[key: string]: any};
         url?: string;
         params?: {[key: string]: any};
         views?: {};
