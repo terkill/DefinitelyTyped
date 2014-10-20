@@ -1,4 +1,4 @@
-q// Type definitions for Angular JS 1.1.5+ (ui.router module)
+// Type definitions for Angular JS 1.1.5+ (ui.router module)
 // Project: https://github.com/angular-ui/ui-router
 // Definitions by: Michel Salib <https://github.com/michelsalib>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
@@ -108,10 +108,10 @@ declare module ng.ui {
     	 */
         sync(): void;
     }
-    
+
     interface IUiViewScrollProvider {
         /*
-         * Reverts back to using the core $anchorScroll service for scrolling 
+         * Reverts back to using the core $anchorScroll service for scrolling
          * based on the url anchor.
          */
         useAnchorScroll(): void;
