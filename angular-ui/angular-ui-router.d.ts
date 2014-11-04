@@ -89,6 +89,11 @@ declare module ng.ui {
         current: IState;
         params: IStateParamsService;
         reload(): void;
+        $current: {
+            parent: {
+                self: IState;
+            };
+        };
     }
 
     interface IStateParamsService {
