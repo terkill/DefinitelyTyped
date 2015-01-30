@@ -6,6 +6,15 @@
 /// <reference path="../angularjs/angular.d.ts" />
 
 declare module ionic {
+
+    /*
+     * Its by no mean a full blow interface
+     * ~ add when ever needed cheers!
+     */
+    interface Ionic {
+        animationFrameThrottle(fn: any): void;
+    }
+
     interface IButtonSpec {
         text: string;
         type: string;
@@ -50,3 +59,8 @@ declare module ionic {
         prompt(options: IPopupPromptOptions): IPopupPromise<any>;
     }
 }
+
+/*
+ * Ionic instance
+ */
+declare var ionic: ionic.Ionic;
