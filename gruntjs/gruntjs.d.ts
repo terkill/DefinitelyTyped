@@ -117,14 +117,14 @@ declare module minimatch {
 declare module grunt {
 
     module config {
-       
+
         /**
          * {@link http://gruntjs.com/sample-gruntfile}
          */
         interface IProjectConfig{
             [plugin: string]: any
             pkg: any; // unfortunate. It is actually a string
-        }                
+        }
 
         /**
          * {@link http://gruntjs.com/api/grunt.config}
@@ -370,7 +370,7 @@ declare module grunt {
              * Returns a string, unless options.encoding is null in which case it returns a Buffer.
              */
             read(filepath: string): string
-            read(filepath: string, options: IFileEncodedOption): Buffer
+            read(filepath: string, options: IFileEncodedOption): Buffer|string
 
             /**
              * Read a file's contents, parsing the data as JSON and returning the result.
@@ -393,8 +393,8 @@ declare module grunt {
              * @param contents If `contents` is a Buffer, encoding is ignored.
              * @param options If an encoding is not specified, default to grunt.file.defaultEncoding.
              */
-            write(filepath: string, contents: string, options?: IFileEncodedOption): void
-            write(filepath: string, contents: Buffer): void
+            write(filepath: string, contents: Buffer|string, options?: IFileEncodedOption): void
+            write(filepath: string, contents: Buffer|string): void
 
             /**
              * Copy a source file to a destination path, creating intermediate directories if necessary.
@@ -760,7 +760,7 @@ declare module grunt {
         /**
          * {@link http://gruntjs.com/api/grunt.task}
          */
-        interface CommonTaskModule {
+        export interface CommonTaskModule {
 
             /**
              * If a task list is specified, the new task will be an alias for one or more other tasks.
