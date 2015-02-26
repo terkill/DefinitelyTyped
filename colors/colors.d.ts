@@ -8,19 +8,38 @@ declare module "colors" {
 }
 
 interface String {
+    // text colors
+    black:string;
+    red:string;
+    green:string;
+    yellow:string;
+    blue:string;
+    magenta:string;
+    cyan:string;
+    white:string;
+    grey:string;
+    // background colors
+    bgBlack:string;
+    bgRed:string;
+    bgGreen:string;
+    bgYellow:string;
+    bgBlue:string;
+    bgMagenta:string;
+    bgCyan:string;
+    bgWhite:string;
+    // styles
+    reset:string;
     bold:string;
+    dim:string;
     italic:string;
     underline:string;
     inverse:string;
-    yellow:string;
-    cyan:string;
-    white:string;
-    magenta:string;
-    green:string;
-    red:string;
-    grey:string;
-    blue:string;
+    hidden:string;
+    strikethrough:string;
+    // extras
     rainbow:string;
     zebra:string;
+    america:string;
+    trap:string;
     random:string;
 }
