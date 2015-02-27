@@ -767,13 +767,13 @@ declare module "dgram" {
         port: number;
         size: number;
     }
-    
+
     interface AddressInfo {
-        address: string; 
-        family: string; 
-        port: number; 
+        address: string;
+        family: string;
+        port: number;
     }
-    
+
     export function createSocket(type: string, callback?: (msg: Buffer, rinfo: RemoteInfo) => void): Socket;
 
     interface Socket extends events.EventEmitter {
@@ -920,6 +920,8 @@ declare module "fs" {
     export function watch(filename: string, options: { persistent?: boolean; }, listener?: (event: string, filename: string) => any): FSWatcher;
     export function exists(path: string, callback?: (exists: boolean) => void): void;
     export function existsSync(path: string): boolean;
+    export function access(path: string, mode?: number, callback?: (err: any) => void): void;
+    export function accessSync(path: string, mode?: number): any;
     export function createReadStream(path: string, options?: {
         flags?: string;
         encoding?: string;
@@ -939,6 +941,10 @@ declare module "fs" {
         encoding?: string;
         string?: string;
     }): WriteStream;
+    export var F_OK: number;
+    export var R_OK: number;
+    export var W_OK: number;
+    export var X_OK: number;
 }
 
 declare module "path" {
