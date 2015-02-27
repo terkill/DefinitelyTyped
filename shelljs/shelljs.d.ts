@@ -126,7 +126,7 @@ declare module "shelljs"
      * @param {string} dest   The destination.
      */
     export function mv(source: string, dest: string): void;
-    
+
     /**
      * Moves files. The wildcard * is accepted.
      * @param {string[]} source The source.
@@ -435,21 +435,14 @@ declare module "shelljs"
      */
     export var env: { [key: string]: string };
 
-    /*
-
-    // Not yet implemented due to implementation issues (constant overloads and return types).
-    // See: https://github.com/arturadib/shelljs#execcommand--options--callback
-
     export function exec(command: string, options: ExecOptions, callback: (code: number, output: string) => any): any;
     export function exec(command: string, options: ExecOptions): any;
 
     interface ExecOptions
     {
-        silent: boolean;
-        async: boolean;
+        silent?: boolean;
+        async?: boolean;
     }
-
-    */
 
     /**
      * Executes the given command synchronously.
