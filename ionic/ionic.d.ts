@@ -13,6 +13,26 @@ declare module ionic {
      */
     interface Ionic {
         animationFrameThrottle(fn: any): void;
+        Platform: IonicPlatform;
+    }
+
+    interface IonicPlatform {
+        device(): any;
+        isWebView(): boolean;
+        isIPad(): boolean;
+        isIOS(): boolean;
+        isAndroid(): boolean;
+        isWindowsPhone(): boolean;
+        platform(): string;
+        version(): number;
+        exitApp(): void;
+        showStatusBar(shouldShow: boolean): void;
+        fullScreen(showFullScreen?: boolean, showStatusBar?: boolean): any;
+        isReady: boolean;
+        isFullScreen: boolean;
+        platforms: string[];
+        grade: string;
+
     }
 
     interface IButtonSpec {
