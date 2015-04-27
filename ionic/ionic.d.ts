@@ -32,6 +32,7 @@ declare module ionic {
         isFullScreen: boolean;
         platforms: string[];
         grade: string;
+        ready: Function;
 
     }
 
