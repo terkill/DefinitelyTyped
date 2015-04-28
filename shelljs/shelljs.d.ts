@@ -8,6 +8,8 @@
 
 declare module "shelljs"
 {
+    import child = require("child_process");
+
     /**
      * Changes to directory dir for the duration of the script
      * @param {string} dir Directory to change in.
@@ -435,23 +437,43 @@ declare module "shelljs"
      */
     export var env: { [key: string]: string };
 
-    export function exec(command: string, options: ExecOptions, callback: (code: number, output: string) => any): any;
-    export function exec(command: string, options: ExecOptions): any;
+    /**
+     * Executes the given command synchronously.
+     * @param  {string}                 command The command to execute.
+     * @return {ExecOutputReturnValue}          Returns an object containing the return code and output as string.
+     */
+    export function exec(command: string): ExecOutputReturnValue;
+    /**
+     * Executes the given command synchronously.
+     * @param  {string}                                     command The command to execute.
+     * @param  {ExecOptions}                                options Silence and synchronous options.
+     * @return {ExecOutputReturnValue | child.ChildProcess}         Returns an object containing the return code and output as string, or if {async:true} was passed, a ChildProcess.
+     */
+    export function exec(command: string, options: ExecOptions): ExecOutputReturnValue | child.ChildProcess;
+    /**
+     * Executes the given command synchronously.
+     * @param  {string}          command  The command to execute.
+     * @param  {ExecOptions}     options  Silence and synchronous options.
+     * @param  {ExecCallback}    callback Receives code and output asynchronously.
+     */
+    export function exec(command: string, options: ExecOptions, callback: ExecCallback): child.ChildProcess;
+    /**
+     * Executes the given command synchronously.
+     * @param  {string}          command  The command to execute.
+     * @param  {ExecCallback}    callback Receives code and output asynchronously.
+     */
+    export function exec(command: string, callback: ExecCallback): child.ChildProcess;
 
-    interface ExecOptions
-    {
+    export interface ExecCallback {
+        (code: number, output: string): any;
+    }
+
+    export interface ExecOptions {
         silent?: boolean;
         async?: boolean;
     }
 
-    /**
-     * Executes the given command synchronously.
-     * @param  {string}          command The commadn to execute.
-     * @return {ExecReturnValue}         Returns an object containing the return code and output as string.
-     */
-    export function exec(command: string): ExecReturnValue;
-
-    interface ExecReturnValue
+    export interface ExecOutputReturnValue
     {
         code: number;
         output: string;

@@ -10171,6 +10171,7 @@ declare module Windows {
             getFilesAsync(): Windows.Foundation.IAsyncOperation<Windows.Foundation.Collections.IVectorView<Windows.Storage.StorageFile>>;
             getFoldersAsync(): Windows.Foundation.IAsyncOperation<Windows.Foundation.Collections.IVectorView<Windows.Storage.StorageFolder>>;
             getItemsAsync(): Windows.Foundation.IAsyncOperation<Windows.Foundation.Collections.IVectorView<Windows.Storage.IStorageItem>>;
+            getItemsAsync(startIndex: number, maxItemsToRetrieve: number): Windows.Foundation.IAsyncOperation<Windows.Foundation.Collections.IVectorView<Windows.Storage.IStorageItem>>;
         }
         export interface IStorageFile extends Windows.Storage.IStorageItem, Windows.Storage.Streams.IRandomAccessStreamReference, Windows.Storage.Streams.IInputStreamReference {
             contentType: string;
@@ -12202,8 +12203,8 @@ declare module Windows {
                 createWithId(tileId: string): Windows.UI.StartScreen.SecondaryTile;
             }
             export class SecondaryTile implements Windows.UI.StartScreen.ISecondaryTile {
-                constructor(tileId: string, shortName: string, displayName: string, arguments: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri);
-                constructor(tileId: string, shortName: string, displayName: string, arguments: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri, wideLogoReference: Windows.Foundation.Uri);
+                constructor(tileId: string, shortName: string, displayName: string, args: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri);
+                constructor(tileId: string, shortName: string, displayName: string, args: string, tileOptions: Windows.UI.StartScreen.TileOptions, logoReference: Windows.Foundation.Uri, wideLogoReference: Windows.Foundation.Uri);
                 constructor(tileId: string);
                 constructor();
                 arguments: string;
@@ -14736,7 +14737,7 @@ declare module Windows.Foundation {
         then<U>(success?: (value: T) => IPromise<U>, error?: (error: any) => U, progress?: (progress: any) => void ): IPromise<U>;
         then<U>(success?: (value: T) => U, error?: (error: any) => IPromise<U>, progress?: (progress: any) => void ): IPromise<U>;
         then<U>(success?: (value: T) => U, error?: (error: any) => U, progress?: (progress: any) => void ): IPromise<U>;
-        done?<U>(success?: (value: T) => any, error?: (error: any) => any, progress?: (progress: any) => void): void;
+        done<U>(success?: (value: T) => any, error?: (error: any) => any, progress?: (progress: any) => void): void;
 
         cancel(): void;
 

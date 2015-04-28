@@ -2461,7 +2461,7 @@ function test_isNumeric() {
     $.isNumeric("8e5");
     $.isNumeric(3.1415);
     $.isNumeric(+10);
-    $.isNumeric(0x64);
+    $.isNumeric(144);
     $.isNumeric("");
     $.isNumeric({});
     $.isNumeric(NaN);
@@ -2511,10 +2511,10 @@ function test_jQuery() {
     $foo.triggerHandler('eventName');
     $("div > p").css("border", "1px solid gray");
     $("input:radio", document.forms[0]);
-	var xml: any;
+    var xml: any;
     $("div", xml.responseXML);
     $(document.body).css("background", "black");
-	var myForm: any;
+    var myForm: any;
     $(myForm.elements).hide();
     $('<p id="test">My <em>new</em> text</p>').appendTo('body');
     $('<img />');
@@ -2537,6 +2537,10 @@ function test_jQuery() {
         }
     }).appendTo("body");
     jQuery(function ($) {
+        // Your code using failsafe $ alias here...
+    });
+    jQuery(document).ready(function ($) {
+        // Your code using failsafe $ alias here...
     });
 }
 
@@ -3043,7 +3047,7 @@ function test_merge() {
     var first = ['a', 'b', 'c'];
     var second = ['d', 'e', 'f'];
     $.merge($.merge([], first), second);
-    var z = $.merge([0, 1, 2], ['a', 'b', 'c']);
+    var z = $.merge<any>([0, 1, 2], ['a', 'b', 'c']);
 }
 
 function test_prop() {
@@ -3212,7 +3216,7 @@ function test_EventIsCallable() {
 }
 
 $.when<any>($.ajax("/my/page.json")).then(a => a.asdf); // is type JQueryPromise<any>
-$.when($.ajax("/my/page.json")).then((a?,b?,c?) => a.asdf); // is type JQueryPromise<any>
+$.when<any>($.ajax("/my/page.json")).then((a?,b?,c?) => a.asdf); // is type JQueryPromise<any>
 $.when("asdf", "jkl;").done((x,y) => x.length + y.length, (x,y) => x.length + y.length);
 
 var f1 = $.when("fetch"); // Is type JQueryPromise<string>
@@ -3343,4 +3347,55 @@ function test_deferred_promise() {
             $("body").append(status);
         }
         );
+}
+
+function test_promise_then_change_type() {
+	function request() {
+		var def = $.Deferred<any>();
+		var promise = def.promise(null);
+
+		def.rejectWith(this, new Error());
+
+		return promise;
+	}
+
+	function count() {
+		var def = request();
+		return def.then<number>(data => {
+			try {
+				var count: number = parseInt(data.count, 10);
+			} catch (err) {
+				return $.Deferred<number>().reject(err).promise();
+			}
+			return $.Deferred<number>().resolve(count).promise();
+		});
+	}
+
+	count().done(data => {
+	}).fail((exception: Error) => {
+	});
+}
+
+function test_promise_then_not_return_deferred() {
+  var state: string;
+
+  var deferred: JQueryDeferred<any> = $.Deferred();
+  state = deferred.state();
+  deferred = deferred.progress();
+  deferred = deferred.done();
+  deferred = deferred.fail();
+  deferred = deferred.always();
+  deferred = deferred.notify();
+  deferred = deferred.resolve();
+  deferred = deferred.reject();
+  promise = deferred.promise();
+  promise = deferred.then(function () { });
+
+  var promise: JQueryPromise<any> = $.Deferred().promise();
+  state = promise.state();
+  promise = promise.then(function () { });
+  promise = promise.progress();
+  promise = promise.done();
+  promise = promise.fail();
+  promise = promise.always();
 }

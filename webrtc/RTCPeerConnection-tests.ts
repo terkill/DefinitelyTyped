@@ -4,7 +4,7 @@
 var config: RTCConfiguration =
     { iceServers: [{ url: "stun.l.google.com:19302" }] };
 var constraints: RTCMediaConstraints =
-    { mandatory: { OfferToReceiveAudio: true, OfferToReceiveVideo: true } };
+    { mandatory: { offerToReceiveAudio: true, offerToReceiveVideo: true } };
 
 var peerConnection: RTCPeerConnection =
     new RTCPeerConnection(config, constraints);
@@ -20,7 +20,7 @@ navigator.getUserMedia({ audio: true, video: true },
 
 peerConnection.onaddstream = ev => console.log(ev.type);
 peerConnection.ondatachannel = ev => console.log(ev.type);
-peerConnection.onicechange = ev => console.log(ev.type);
+peerConnection.oniceconnectionstatechange = ev => console.log(ev.type);
 peerConnection.onnegotiationneeded = ev => console.log(ev.type);
 peerConnection.onopen = ev => console.log(ev.type);
 peerConnection.onicecandidate = ev => console.log(ev.type);

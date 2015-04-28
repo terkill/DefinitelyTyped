@@ -17,10 +17,12 @@ declare module 'xml2js' {
         }
 
         class Parser {
-            constructor(options?: BuilderOptions);
+            constructor(options?: Options);
+            processAsync(): any;
+            assignOrPush(obj: any, key: string, newValue: any): any;
             buildObject(rootObj: any): string;
-            parseString(xml: string, callback: (err: any, result: any) => void): void;
-            reset(): void;
+            parseString(str: string , cb?: Function): void;
+            reset(): any;
         }
 
         interface RenderOptions {

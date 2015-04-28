@@ -5,6 +5,8 @@
 
 // Imported from: https://github.com/soywiz/typescript-node-definitions/redis.d.ts
 
+/// <reference path="../node/node.d.ts" />
+
 declare module "redis" {
   export function createClient(port_arg: number, host_arg?: string, options?: ClientOpts): RedisClient;
   export function createClient(unix_socket: string, options?: ClientOpts): RedisClient;
@@ -31,7 +33,7 @@ declare module "redis" {
 	}
 
 	interface ClientOpts {
-		parser: string;
+		parser?: string;
 		return_buffers?: boolean;
 		detect_buffers?: boolean;
 		socket_nodelay?: boolean;
@@ -40,10 +42,10 @@ declare module "redis" {
 		retry_max_delay?: number;
 		connect_timeout?: number;
 		max_attempts?: number;
-		auth_pass?: boolean;
+		auth_pass?: string;
 	}
 
-	interface RedisClient {
+	interface RedisClient extends NodeJS.EventEmitter {
     // event: connect
     // event: error
     // event: message
@@ -76,7 +78,6 @@ declare module "redis" {
 
     publish(channel: string, value: any): void;
     subscribe(channel: string): void;
-    on(channel: string, handler: MessageHandler): void;
 
     /*
     commands = set_union([
